@@ -25,5 +25,21 @@ class Solution:
         recursive(root)
         rst = min([queue[i] - queue[i-1] for i in range(1, len(queue))])
         return rst
+
+    # def minDiffInBST(self, root: TreeNode) -> int:
+    #     rst = float('inf')
+    #     pre = -float('inf')
+    #     def recursive(root):
+    #         nonlocal rst, pre
+    #         if root is None:
+    #             return None
+    #         else:
+    #             recursive(root.left)
+    #             if root.val - pre < rst:
+    #                 rst = root.val - pre
+    #             pre = root.val
+    #             recursive(root.right)
+    #     recursive(root)
+    #     return rst
 # @lc code=end
 
