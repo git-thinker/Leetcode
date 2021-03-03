@@ -5,6 +5,8 @@
  */
 
 // @lc code=start
+#include<vector>
+using namespace std;
 class UnionFind{
 public:
     vector<int> parents;
@@ -57,21 +59,46 @@ public:
 
 class Solution {
 public:
+    // int numIslands(vector<vector<char>>& grid) {
+    //     UnionFind myUnionFind = UnionFind(grid);
+    //     for(int i = 0; i < myUnionFind.m; ++i){
+    //         for(int j = 0; j < myUnionFind.n; ++j){
+    //             if(grid[i][j] == '1'){
+    //                 grid[i][j] = '2';
+    //                 if(0 <= i-1 && grid[i-1][j] == '1') myUnionFind.Union(i, j, i-1, j, grid);
+    //                 if(i+1 < myUnionFind.m && grid[i+1][j] == '1') myUnionFind.Union(i, j, i+1, j, grid);
+    //                 if(0 <= j-1 && grid[i][j-1] == '1') myUnionFind.Union(i, j, i, j-1, grid);
+    //                 if(j+1 < myUnionFind.n && grid[i][j+1] == '1') myUnionFind.Union(i, j, i, j+1, grid);
+    //             }
+    //         }
+    //     }
+    //     return myUnionFind.count();
+    // }
+
     int numIslands(vector<vector<char>>& grid) {
-        UnionFind myUnionFind = UnionFind(grid);
-        for(int i = 0; i < myUnionFind.m; ++i){
-            for(int j = 0; j < myUnionFind.n; ++j){
+        int count = 0;
+        for(int i = 0; i < grid.size(); ++i){
+            for(int j = 0; j < grid[0].size(); ++j){
                 if(grid[i][j] == '1'){
-                    grid[i][j] = '2';
-                    if(0 <= i-1 && grid[i-1][j] == '1') myUnionFind.Union(i, j, i-1, j, grid);
-                    if(i+1 < myUnionFind.m && grid[i+1][j] == '1') myUnionFind.Union(i, j, i+1, j, grid);
-                    if(0 <= j-1 && grid[i][j-1] == '1') myUnionFind.Union(i, j, i, j-1, grid);
-                    if(j+1 < myUnionFind.n && grid[i][j+1] == '1') myUnionFind.Union(i, j, i, j+1, grid);
+                    count++;
+                    this->crack(grid, i, j);
                 }
             }
         }
-        return myUnionFind.count();
+        return count;
+    }    
+
+    void crack(vector<vector<char>>& grid, int x, int y){
+        if(x < 0 || y < 0) return;
+        if(x >= grid.size() || y >= grid[0].size()) return;
+        if(grid[x][y] != '1') return;
+        grid[x][y] = '2';
+        this->crack(grid, x+1, y);
+        this->crack(grid, x, y+1);
+        this->crack(grid, x-1, y);
+        this->crack(grid, x, y-1);
     }
+    
 };
 // @lc code=end
 
