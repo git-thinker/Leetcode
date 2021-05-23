@@ -4,6 +4,9 @@
  * [208] 实现 Trie (前缀树)
  */
 
+#include <vector>
+#include <string>
+using namespace std;
 // @lc code=start
 class Node{
 public:
