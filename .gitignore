@@ -3,3 +3,4 @@ workspace.code-workspace
 test.*
 *.exe
 CMakeLists.txt
+*.pyc

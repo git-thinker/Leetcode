@@ -1,13 +1,12 @@
 /*
- * @lc app=leetcode.cn id=303 lang=cpp
+ * @lc app=leetcode.cn id=307 lang=cpp
  *
- * [303] 区域和检索 - 数组不可变
+ * [307] 区域和检索 - 数组可修改
  */
 #include<vector>
 #include<cmath>
 using namespace std;
 // @lc code=start
-
 class NumArray {
 public:
     vector<int> data;
@@ -18,8 +17,14 @@ public:
         this->build(0, 0, this->data.size() - 1);
     }
     
-    int sumRange(int i, int j) {
-        return this->query(0, i, j, 0, this->data.size()-1);
+    void update(int index, int val) {
+        int delta = val - this->data[index];
+        this->modify(index, delta, 0, 0, this->data.size() - 1);
+        this->data[index] = val;
+    }
+    
+    int sumRange(int left, int right) {
+        return this->query(0, left, right, 0, this->data.size()-1);
     }
 
     int find_left(int index){return 2 * index + 1;}
@@ -51,27 +56,25 @@ public:
             }
         }
     }
-};
 
-// class NumArray {
-// public:
-//     vector<int> data;
-//     NumArray(vector<int>& nums) {
-//         this->data = nums;
-//         for(int i = 0; i < nums.size(); i++){
-//             if(i) this->data[i] += this->data[i-1];
-//         }
-//     }
-    
-//     int sumRange(int i, int j) {
-//         return i? this->data[j] - this->data[i-1] : this->data[j];
-//     }
-// };
+    void modify(int data_index, int delta, int index, int left, int right){
+        this->tree[index] += delta;
+        int m = (left + right) / 2;
+        if(left == right){
+            return ;
+        }else if(data_index <= m){
+            modify(data_index, delta, this->find_left(index), left, m);
+        }else{
+            modify(data_index, delta, this->find_right(index), m + 1, right);
+        }
+    }
+};
 
 /**
  * Your NumArray object will be instantiated and called as such:
  * NumArray* obj = new NumArray(nums);
- * int param_1 = obj->sumRange(i,j);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
  */
 // @lc code=end
 
